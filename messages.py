@@ -44,6 +44,42 @@ class MTLMessage:
         </html>
         """
     
+class MTLError:
+    apicode = 400
+
+    def __init__(self, error: dict):
+        self.args = [error]
+        self.desc = "Error"
+        self.kvargs = { 'error': error, 'error_code': self.apicode}
+
+
+
+    def to_json(self):
+        return json.dumps(self.kvargs, sort_keys=True)
+    
+    def raw(self):
+        return self.kvargs
+    
+    def html(self):
+        return f"""
+        <html>
+            <head><title>Error {self.apicode}</title></head>
+            <body>
+                <h1>Error {self.apicode}</h1>
+                <p>{self.kvargs.get('error', '')}</p>
+            </body>
+        </html>
+        """
+    
+class ResourceCreateError(MTLError):
+    apicode = 500
+    def __init__(self, error: dict):
+        self.args = [error]
+        self.desc = "Resource Creation Error"
+        self.kvargs = { 'error': error, 'error_code': self.apicode}
+
+
+    
         
 
 class ResourceCreated(MTLMessage):
@@ -70,6 +106,14 @@ class ResourceDeleted(MTLMessage):
         self.desc = "Delete Resource"
         self.kvargs = { 'deleted': resource}
 
+class ResourceFound(MTLMessage):
+    apicode = 200
+
+    def __init__(self, resource: dict):
+        self.args = [resource]
+        self.desc = "Resource Found"
+        self.kvargs = { 'found': resource}
+
 class ResourceNotFound(MTLMessage):
     apicode = 404
 
@@ -78,7 +122,21 @@ class ResourceNotFound(MTLMessage):
         self.desc = "Resource Not Found"
         self.kvargs = { 'not found': resource}
 
+class ResourceCreateError(MTLError):
+    apicode = 400
 
+    def __init__(self, error: dict):
+        self.args = [error]
+        self.desc = "Resource Error"
+        self.kvargs = { 'error': error} 
+
+class ResourceUpdateError(MTLError):
+    apicode = 400
+
+    def __init__(self, error: dict):
+        self.args = [error]
+        self.desc = "Resource Update Error"
+        self.kvargs = { 'error': error, 'error_code': self.apicode }
 
 
 class LoadStatus:

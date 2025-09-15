@@ -1,0 +1,615 @@
+2025-09-13 14:01:11,156 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:11,160 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:11,162 - uvicorn.error - INFO - Finished server process [252168]
+2025-09-13 14:01:13,569 - uvicorn.error - INFO - Started server process [351078]
+2025-09-13 14:01:13,570 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:13,571 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:13,773 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:13,876 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:13,878 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:13,880 - uvicorn.error - INFO - Finished server process [351078]
+2025-09-13 14:01:16,256 - uvicorn.error - INFO - Started server process [351088]
+2025-09-13 14:01:16,257 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:16,258 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:17,865 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:17,967 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:17,969 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:17,970 - uvicorn.error - INFO - Finished server process [351088]
+2025-09-13 14:01:20,234 - uvicorn.error - INFO - Started server process [351098]
+2025-09-13 14:01:20,236 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:20,236 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:23,250 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:23,352 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:23,354 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:23,357 - uvicorn.error - INFO - Finished server process [351098]
+2025-09-13 14:01:26,382 - uvicorn.error - INFO - Started server process [351128]
+2025-09-13 14:01:26,383 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:26,384 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:29,397 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:29,501 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:29,504 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:29,506 - uvicorn.error - INFO - Finished server process [351128]
+2025-09-13 14:01:32,189 - uvicorn.error - INFO - Started server process [351137]
+2025-09-13 14:01:32,190 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:32,191 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:39,217 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:39,320 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:39,323 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:39,324 - uvicorn.error - INFO - Finished server process [351137]
+2025-09-13 14:01:41,969 - uvicorn.error - INFO - Started server process [351177]
+2025-09-13 14:01:41,970 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:41,971 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:41,977 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:01:44,703 - uvicorn.error - INFO - Started server process [351187]
+2025-09-13 14:01:44,704 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:44,705 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:46,612 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:46,716 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:46,719 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:46,721 - uvicorn.error - INFO - Finished server process [351187]
+2025-09-13 14:01:49,027 - uvicorn.error - INFO - Started server process [351196]
+2025-09-13 14:01:49,029 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:49,029 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:01:55,853 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:01:55,956 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:01:55,959 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:01:55,960 - uvicorn.error - INFO - Finished server process [351196]
+2025-09-13 14:01:58,737 - uvicorn.error - INFO - Started server process [351224]
+2025-09-13 14:01:58,738 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:01:58,739 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:02,050 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:02,154 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:02,157 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:02,159 - uvicorn.error - INFO - Finished server process [351224]
+2025-09-13 14:02:04,662 - uvicorn.error - INFO - Started server process [351234]
+2025-09-13 14:02:04,664 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:04,665 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:04,668 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:02:06,991 - uvicorn.error - INFO - Started server process [351253]
+2025-09-13 14:02:06,992 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:06,994 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:06,997 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:02:09,304 - uvicorn.error - INFO - Started server process [351281]
+2025-09-13 14:02:09,306 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:09,307 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:09,310 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:02:12,505 - uvicorn.error - INFO - Started server process [351291]
+2025-09-13 14:02:12,507 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:12,508 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:14,214 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:14,316 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:14,319 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:14,321 - uvicorn.error - INFO - Finished server process [351291]
+2025-09-13 14:02:16,932 - uvicorn.error - INFO - Started server process [351300]
+2025-09-13 14:02:16,933 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:16,934 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:19,250 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:19,354 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:19,357 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:19,359 - uvicorn.error - INFO - Finished server process [351300]
+2025-09-13 14:02:21,938 - uvicorn.error - INFO - Started server process [351310]
+2025-09-13 14:02:21,939 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:21,941 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:24,350 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:24,453 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:24,455 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:24,457 - uvicorn.error - INFO - Finished server process [351310]
+2025-09-13 14:02:26,741 - uvicorn.error - INFO - Started server process [351340]
+2025-09-13 14:02:26,742 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:26,743 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:40,994 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:41,099 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:41,101 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:41,103 - uvicorn.error - INFO - Finished server process [351340]
+2025-09-13 14:02:43,421 - uvicorn.error - INFO - Started server process [351379]
+2025-09-13 14:02:43,423 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:43,424 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:46,837 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:46,940 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:46,943 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:46,945 - uvicorn.error - INFO - Finished server process [351379]
+2025-09-13 14:02:49,436 - uvicorn.error - INFO - Started server process [351388]
+2025-09-13 14:02:49,438 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:49,439 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:51,345 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:02:51,448 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:02:51,451 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:02:51,453 - uvicorn.error - INFO - Finished server process [351388]
+2025-09-13 14:02:54,011 - uvicorn.error - INFO - Started server process [351397]
+2025-09-13 14:02:54,013 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:54,014 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:02:54,019 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:02:56,683 - uvicorn.error - INFO - Started server process [351407]
+2025-09-13 14:02:56,684 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:02:56,685 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:00,400 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:00,513 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:00,521 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:00,523 - uvicorn.error - INFO - Finished server process [351407]
+2025-09-13 14:03:03,535 - uvicorn.error - INFO - Started server process [351444]
+2025-09-13 14:03:03,536 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:03,537 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:03,541 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:03:05,962 - uvicorn.error - INFO - Started server process [351474]
+2025-09-13 14:03:05,963 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:05,964 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:05,967 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:03:08,306 - uvicorn.error - INFO - Started server process [351483]
+2025-09-13 14:03:08,308 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:08,309 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:09,816 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:09,919 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:09,920 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:09,920 - uvicorn.error - INFO - Finished server process [351483]
+2025-09-13 14:03:12,211 - uvicorn.error - INFO - Started server process [351493]
+2025-09-13 14:03:12,213 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:12,214 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:34,099 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:34,202 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:34,205 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:34,207 - uvicorn.error - INFO - Finished server process [351493]
+2025-09-13 14:03:37,000 - uvicorn.error - INFO - Started server process [351554]
+2025-09-13 14:03:37,002 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:37,003 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:38,210 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:38,312 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:38,315 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:38,317 - uvicorn.error - INFO - Finished server process [351554]
+2025-09-13 14:03:40,737 - uvicorn.error - INFO - Started server process [351563]
+2025-09-13 14:03:40,739 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:40,740 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:42,350 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:42,451 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:42,452 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:42,453 - uvicorn.error - INFO - Finished server process [351563]
+2025-09-13 14:03:45,070 - uvicorn.error - INFO - Started server process [351574]
+2025-09-13 14:03:45,072 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:45,073 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:46,280 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:46,383 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:46,386 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:46,390 - uvicorn.error - INFO - Finished server process [351574]
+2025-09-13 14:03:50,542 - uvicorn.error - INFO - Started server process [351602]
+2025-09-13 14:03:50,544 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:50,545 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:50,548 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:03:52,937 - uvicorn.error - INFO - Started server process [351611]
+2025-09-13 14:03:52,938 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:52,939 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:03:54,447 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:03:54,551 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:03:54,554 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:03:54,555 - uvicorn.error - INFO - Finished server process [351611]
+2025-09-13 14:03:56,865 - uvicorn.error - INFO - Started server process [351620]
+2025-09-13 14:03:56,866 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:03:56,867 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:06:28,593 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:06:28,696 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:06:28,699 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:06:28,701 - uvicorn.error - INFO - Finished server process [351620]
+2025-09-13 14:06:31,054 - uvicorn.error - INFO - Started server process [351891]
+2025-09-13 14:06:31,055 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:06:31,056 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:06:32,561 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:06:32,664 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:06:32,667 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:06:32,669 - uvicorn.error - INFO - Finished server process [351891]
+2025-09-13 14:06:35,036 - uvicorn.error - INFO - Started server process [351900]
+2025-09-13 14:06:35,038 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:06:35,038 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:06:38,358 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:06:38,460 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:06:38,461 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:06:38,462 - uvicorn.error - INFO - Finished server process [351900]
+2025-09-13 14:06:41,837 - uvicorn.error - INFO - Started server process [351940]
+2025-09-13 14:06:41,838 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:06:41,839 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:06:42,747 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:06:42,850 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:06:42,852 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:06:42,855 - uvicorn.error - INFO - Finished server process [351940]
+2025-09-13 14:06:45,098 - uvicorn.error - INFO - Started server process [351950]
+2025-09-13 14:06:45,099 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:06:45,100 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:01,199 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:01,301 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:01,304 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:01,306 - uvicorn.error - INFO - Finished server process [351950]
+2025-09-13 14:11:03,668 - uvicorn.error - INFO - Started server process [352512]
+2025-09-13 14:11:03,670 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:03,671 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:18,935 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:19,038 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:19,039 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:19,040 - uvicorn.error - INFO - Finished server process [352512]
+2025-09-13 14:11:21,630 - uvicorn.error - INFO - Started server process [352542]
+2025-09-13 14:11:21,631 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:21,632 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:27,859 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:27,962 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:27,965 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:27,967 - uvicorn.error - INFO - Finished server process [352542]
+2025-09-13 14:11:30,558 - uvicorn.error - INFO - Started server process [352582]
+2025-09-13 14:11:30,559 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:30,560 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:32,672 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:32,775 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:32,777 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:32,780 - uvicorn.error - INFO - Finished server process [352582]
+2025-09-13 14:11:35,264 - uvicorn.error - INFO - Started server process [352591]
+2025-09-13 14:11:35,265 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:35,266 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:40,184 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:40,287 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:40,290 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:40,292 - uvicorn.error - INFO - Finished server process [352591]
+2025-09-13 14:11:42,731 - uvicorn.error - INFO - Started server process [352601]
+2025-09-13 14:11:42,732 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:42,733 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:43,235 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:43,337 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:43,340 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:43,342 - uvicorn.error - INFO - Finished server process [352601]
+2025-09-13 14:11:45,761 - uvicorn.error - INFO - Started server process [352629]
+2025-09-13 14:11:45,763 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:45,764 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:45,767 - uvicorn.error - ERROR - Traceback (most recent call last):
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+  File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ^^^^^^^^^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/home/tinashe/Desktop/projects/mtl-api/venv/lib/python3.12/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2025-09-13 14:11:48,281 - uvicorn.error - INFO - Started server process [352638]
+2025-09-13 14:11:48,283 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:48,284 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:49,690 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:49,794 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:49,797 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:49,799 - uvicorn.error - INFO - Finished server process [352638]
+2025-09-13 14:11:52,282 - uvicorn.error - INFO - Started server process [352650]
+2025-09-13 14:11:52,284 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:11:52,285 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:11:58,310 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:11:58,412 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:11:58,413 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:11:58,414 - uvicorn.error - INFO - Finished server process [352650]
+2025-09-13 14:12:00,824 - uvicorn.error - INFO - Started server process [352670]
+2025-09-13 14:12:00,825 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:12:00,826 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:12:03,336 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:12:03,439 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:12:03,442 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:12:03,444 - uvicorn.error - INFO - Finished server process [352670]
+2025-09-13 14:12:05,985 - uvicorn.error - INFO - Started server process [352698]
+2025-09-13 14:12:05,986 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:12:05,987 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 14:12:09,100 - uvicorn.error - INFO - Shutting down
+2025-09-13 14:12:09,202 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 14:12:09,205 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 14:12:09,208 - uvicorn.error - INFO - Finished server process [352698]
+2025-09-13 14:12:11,791 - uvicorn.error - INFO - Started server process [352709]
+2025-09-13 14:12:11,793 - uvicorn.error - INFO - Waiting for application startup.
+2025-09-13 14:12:11,795 - uvicorn.error - INFO - Application startup complete.
+2025-09-13 17:20:02,876 - uvicorn.error - INFO - Shutting down
+2025-09-13 17:20:02,977 - uvicorn.error - INFO - Waiting for application shutdown.
+2025-09-13 17:20:02,979 - uvicorn.error - INFO - Application shutdown complete.
+2025-09-13 17:20:02,980 - uvicorn.error - INFO - Finished server process [352709]

@@ -23,3 +23,41 @@ it is easy
 Will get more requirements later as we go. 
 
 
+## Endpoints and Their Explanations 
+
+### Trips
+
+`GET /api/trips/` This will get all the trips 
+
+
+#### Getting trips with filters
+`GET /api/trips/?status=Scheduled ` This will get all the trips that have status as Scheduled
+```
+broker
+rate_con_number
+rate
+pickup_location
+dropoff_location
+pickup_date
+delivery_date
+status
+created_at
+updated_at
+driver_id    # Get trip by a particular driver
+truck_id     # Get trips by a particular truck
+```
+
+- Update also works for all this 
+- Trip Status 
+    - Load Status 
+    - Truck Status 
+
+
+### Trucks
+
+- Get all trucks 
+- Get truck location
+- 
+
+
+
