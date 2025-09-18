@@ -40,9 +40,9 @@ class ConfigManager:
             cursor.execute(sql, tuple(props.values()))
             conn.commit()
 
-        self.trip_id = cursor.lastrowid
-        if self.trip_id is None:
-            return msg.ResourceCreateError({'error': 'Failed to create trip'})
+        self.id = cursor.lastrowid
+        if self.id is None:
+            return msg.ResourceCreateError({'error': 'Failed to create item'})
         self.created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         return msg.ResourceCreated(self.__dict__)
 

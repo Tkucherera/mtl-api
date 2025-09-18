@@ -124,7 +124,7 @@ class TestTrip(unittest.TestCase):
         )
         res = trip.create(conn, trip.__dict__)
         self.assertEqual(res.apicode, 201)
-        trip_id = res.raw()['created']['trip_id']
+        trip_id = res.raw()['created']['id']
 
         # Update status to IN_TRANSIT
         res_update = Trip.update_status(trip_id, LoadStatus.IN_TRANSIT, conn)
@@ -260,10 +260,56 @@ class TestTruck(unittest.TestCase):
         res = truck.create(self.conn, truck.__dict__)
         self.assertEqual(res.apicode, 201)
 
+    def test_get_truck_item_db(self):
+        truck = Truck(
+            license_plate='MMM-000',
+            model='Volvo',
+            year = 2020,
+            towing_capacity=68000     
+        )
 
+        res = truck.create(self.conn, truck.__dict__)
+        self.assertEqual(res.apicode, 201)
 
+        truck_id = res.raw()['created']['id']
+        self.assertIsNotNone(truck_id)
 
-    
+        # now go the get the item 
+        item = Truck.get(self.conn, truck_id)
+        self.assertEqual(item.apicode, 200)
+        resp_object = item.raw()['found']
+        self.assertEqual('MMM-000', resp_object['license_plate'])
+        self.assertEqual('Volvo', resp_object['model'])
+
+    def test_update_truck_item(self):
+        truck = Truck(
+            license_plate='MMM-000',
+            model='Volvo',
+            year = 2020,
+            towing_capacity=68000     
+        )
+
+        res = truck.create(self.conn, truck.__dict__)
+        self.assertEqual(res.apicode, 201)
+
+        truck_id = res.raw()['created']['id']
+        self.assertIsNotNone(truck_id)
+
+        # now go the get the item 
+        item = Truck.get(self.conn, truck_id)
+        self.assertEqual(item.apicode, 200)
+        resp_object = item.raw()['found']
+        self.assertEqual('MMM-000', resp_object['license_plate'])
+        self.assertEqual('Volvo', resp_object['model'])
+
+        # do an update and check again 
+        truck_update = Truck.update(self.conn, truck_id, license_plate='MMM-001')
+        self.assertEqual(truck_update.apicode, 200)
+                # Verify update
+        cursor = self.conn.cursor()
+        cursor.execute('SELECT license_plate FROM trucks WHERE id = ?', (truck_id,))
+        updated_truck = cursor.fetchone()
+        self.assertEqual(updated_truck['license_plate'], 'MMM-001')    
 
 
 if __name__ == '__main__':
