@@ -9,6 +9,7 @@ import os
 from datetime import datetime
 import messages as msg
 from config.config import ConfigManager
+from pydantic import BaseModel
 
 """
 Goals for this module:
@@ -24,14 +25,32 @@ Goals for this module:
 
 """
 
+class TruckStatus:
+    """
+    This is a way to ensure the state of a truck is consistent
+    """
+    ACTIVE = "active"
+    MAINTANANCE = "in maintanance"
+    BROKEN = "broken down"
+    RETIRED = "retired"
+    SOLD = "sold"
+
+class TruckItem(BaseModel):
+    license_plate: str
+    model: str
+    year: int
+    location: str = None
+
+
 class Truck(ConfigManager):
-    def __init__(self, license_plate: str, model: str, year: int, location=None):
+    def __init__(self, license_plate: str, model: str, year: int, towing_capacity: int, status=TruckStatus.ACTIVE, location=None):
         self.id = None
         self.license_plate = license_plate
         self.model = model
         self.year = year
-        self.location = location # This for now doesnt need to be updated every second but maybe every hour or so will probrably use in memory db for per minute or less update
-        self.status = "active"  # could be active, inactive, maintenance, available
+        self.towing_capacity = towing_capacity
+        self.location = location # Need Location Object,  This for now doesnt need to be updated every second but maybe every hour or so will probrably use in memory db for per minute or less update
+        self.status = status # TODO explore multiple statuses 
         self.created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     

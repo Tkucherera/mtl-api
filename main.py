@@ -2,17 +2,18 @@ import sys
 import os
 
 
-from services.trip import Trip
+from services.trip import Trip, TripItem
 from logger import activity_logger, error_logger, stdout_logger
 from services.extract_trip_details import extract_from_pdf, process_pdf_text
-from messages import *
+import messages as msg
 from config.db import get_db_connection
 from client import Client
 
 
 
 from typing import Union
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import Response, status
 from datetime import datetime
 
 
@@ -59,59 +60,58 @@ def get_trips(
 
     return trips.raw()
 
-@app.get("/api/trips/{trip_id}")
-def get_trip(trip_id: int):
+@app.get("/api/trips/{trip_id}", status_code=200)
+def get_trip(trip_id: int, response: Response):
     """
     Get trip details by trip ID.
     """
-    print('Did you call me?')
     conn = get_db_connection()
     trip = Trip.get(conn, trip_id)
+    if trip.apicode == 404:
+        response.status_code = status.HTTP_404_NOT_FOUND
     return trip.raw()
 
-app.post("/api/trips/")        # add back the functionaly
-def create_trip(trip: Trip):   # TODO Figure out how to hanlde form data either sever side or deligate to client 
+@app.post("/api/trips/", status_code=201)       
+def create_trip(trip: TripItem, response: Response): 
     """
     Create a new trip.
+    TODO Support forms as well
     """
     conn = get_db_connection()
-    cursor = conn.cursor()
-    res = trip.create(cursor)
-    if res.apicode == 201:
-        conn.commit()
+    new_trip = Trip(trip.broker, 
+                    trip.rate_con_number, 
+                    trip.rate, 
+                    trip.pickup_location, 
+                    trip.dropoff_location, 
+                    trip.pickup_date,
+                    trip.delivery_date, 
+                    trip.truck_id, 
+                    trip.status)
+    res = new_trip.create(conn, new_trip.__dict__)
+    if res.apicode == 400:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+    return res.raw()
+
+@app.put("/api/trips/{trip_id}/")
+def update_trip_status(trip_id: int, 
+        broker: Union[str, None] = None,
+        rate: Union[float, None] = None,
+        rate_con_number: Union[str, None] = None, 
+        status: Union[str, None] = None,
+        driver_id: Union[int, None] = None,
+        truck_id: Union[int, None] = None,
+        pick_up_location: Union[str, None] = None,
+        drop_off_location: Union[str, None] = None,
+        end_date: Union[str, None] = None):
+    """
+    Update the values of a trip.
+    """
+    conn = get_db_connection()
+    res = Trip.update(conn, trip_id, broker=broker, rate=rate, rate_con_number=rate_con_number, status=status, driver_id=driver_id, truck_id=truck_id)
     conn.close()
     return res.raw()
 
-@app.put("/api/trips/{trip_id}/status")
-def update_trip_status(trip_id: int, new_status: str):
-    """
-    Update the status of a trip.
-    """
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    res = Trip.update_status(trip_id, new_status, cursor)
-    if res.apicode == 200:
-        conn.commit()
-    conn.close()
-    return res.raw()
 
-@app.put("/api/trips/{trip_id}/delivery_date")
-def update_trip_delivery_date(trip_id: int, new_delivery_date: str):
-    """
-    Update the delivery date of a trip.
-    """
-    try:
-        new_date = datetime.strptime(new_delivery_date, "%Y-%m-%dT%H:%M:%S")
-    except ValueError:
-        return {"apicode": 400, "message": "Invalid date format. Use YYYY-MM-DDTHH:MM:SS"}
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    res = Trip.upate_delivery_date(trip_id, new_date, cursor)
-    if res.apicode == 200:
-        conn.commit()
-    conn.close()
-    return res.raw()
 
 @app.post("/api/trips/upload")
 def upload_trip_pdf(file: UploadFile = File(...)):

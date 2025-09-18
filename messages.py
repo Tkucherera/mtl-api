@@ -44,7 +44,7 @@ class MTLMessage:
         </html>
         """
     
-class MTLError:
+class MTLError(Exception):
     apicode = 400
 
     def __init__(self, error: dict):
@@ -72,7 +72,7 @@ class MTLError:
         """
     
 class ResourceCreateError(MTLError):
-    apicode = 500
+    apicode = 400
     def __init__(self, error: dict):
         self.args = [error]
         self.desc = "Resource Creation Error"
@@ -114,7 +114,7 @@ class ResourceFound(MTLMessage):
         self.desc = "Resource Found"
         self.kvargs = { 'found': resource}
 
-class ResourceNotFound(MTLMessage):
+class ResourceNotFound(MTLError):
     apicode = 404
 
     def __init__(self, resource: dict):

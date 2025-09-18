@@ -10,6 +10,7 @@ from datetime import datetime
 import messages as msg
 import sqlite3
 from config.config import ConfigManager
+from pydantic import BaseModel
 
 
 """
@@ -24,6 +25,22 @@ Goals for this module:
 - Trip history and reporting functions.
 - Trip details for specific trip
 """
+
+class TripItem(BaseModel):
+    """
+    This is an item used to create new trip from client
+    """
+    broker: str
+    rate_con_number: str
+    rate: float
+    pickup_location: str
+    dropoff_location: str
+    pickup_date: str
+    delivery_date: str
+    status: str = msg.LoadStatus.SCHEDULED 
+    truck_id: int 
+    driver_id: int | None = None
+    
 
 
 class Trip(ConfigManager):

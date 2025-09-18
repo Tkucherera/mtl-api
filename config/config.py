@@ -13,6 +13,7 @@ Goals for this module:
 
 import messages as msg
 from datetime import datetime
+from logger import activity_logger, stdout_logger
 
 class ConfigManager:
     """
@@ -26,6 +27,7 @@ class ConfigManager:
         """
         Insert a new row into the database table
         """
+        stdout_logger.info(props)
         # remove id from props 
         if 'id' in props:
             props.pop('id')
@@ -77,17 +79,20 @@ class ConfigManager:
         Update a row in the database table
         returns the updated row or error
         """
-        if not kwargs:
+        update_args = {key: value for key, value in kwargs.items() if value is not None }
+        if not update_args:
             return msg.ResourceUpdateError({'error': 'No properties to update'})
         cursor = conn.cursor()
-        columns = ', '.join([f"{key}=?" for key in kwargs.keys()])
+        columns = ', '.join([f"{key}=?" for key in update_args.keys()])
         sql = f"UPDATE {cls.table_name} SET {columns} WHERE id=?"
-        values = list(kwargs.values()) + [id]
+        values = list(update_args.values()) + [id]
         cursor.execute(sql, values)
         conn.commit()
         if cursor.rowcount == 0:
             return msg.ResourceUpdateError({'error': 'No row updated', 'id': id})
-        return cls.get(conn, id)
+        resource = cls.get(conn, id).raw()
+        if 'found' in resource.keys():
+            return msg.ResourceUpdated(resource['found'])
     
     @classmethod
     def filter(cls, conn, **kwargs):

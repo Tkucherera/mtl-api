@@ -40,6 +40,24 @@ CREATE TABLE IF NOT EXISTS trips (
 )
 ''')
 
+
+# Create Trucks table 
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS trucks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    license_plate TEXT,
+    model TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    towing_capacity INTEGER NOT NULL,
+    location TEXT,
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL 
+)
+'''
+
+)
+
 # Create drivers table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS drivers (
