@@ -39,10 +39,13 @@ class TruckItem(BaseModel):
     license_plate: str
     model: str
     year: int
+    towing_capacity: int
     location: str = None
 
 
 class Truck(ConfigManager):
+    table_name = 'trucks'
+
     def __init__(self, license_plate: str, model: str, year: int, towing_capacity: int, status=TruckStatus.ACTIVE, location=None):
         self.id = None
         self.license_plate = license_plate

@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import unittest
 
 from services.trip import Trip
+from services.truck import Truck
 from messages import *
 import time
 import sqlite3
@@ -206,6 +207,64 @@ class TestDatabase(unittest.TestCase):
         self.assertIn('trips', table_names)
         self.assertIn('drivers', table_names)
         self.conn.close()
+
+class TestTruck(unittest.TestCase):
+
+    def setUp(self):
+        self.conn = sqlite3.connect(":memory:")
+        self.conn.row_factory = sqlite3.Row
+        cursor = self.conn.cursor()
+
+        # Create drivers table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS trucks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            license_plate TEXT,
+            model TEXT NOT NULL,
+            year INTEGER NOT NULL,
+            towing_capacity INTEGER NOT NULL,
+            location TEXT,
+            status TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL 
+        )
+        '''
+
+        )
+        self.conn.commit()
+
+    def tearDown(self):
+        return super().tearDown()
+    
+    def test_truck_initialization(self):
+
+        truck = Truck(
+            license_plate='MMM-000',
+            model='Volvo',
+            year = 2020,
+            towing_capacity=68000     
+        )
+        self.assertEqual(truck.license_plate, 'MMM-000')
+        self.assertEqual(truck.model, 'Volvo')
+        self.assertIsNotNone(truck.status)
+        self.assertIsNotNone(truck.created_at)
+
+    def test_save_truck_db(self):
+        truck = Truck(
+            license_plate='MMM-000',
+            model='Volvo',
+            year = 2020,
+            towing_capacity=68000     
+        )
+
+        res = truck.create(self.conn, truck.__dict__)
+        self.assertEqual(res.apicode, 201)
+
+
+
+
+    
+
 
 if __name__ == '__main__':
     unittest.main()

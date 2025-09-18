@@ -45,6 +45,7 @@ class TripItem(BaseModel):
 
 class Trip(ConfigManager):
     table_name = 'trips'
+    
     def __init__(self, broker: str, rate_con_number: str, rate: float, pickup_location: str, dropoff_location: str, pickup_date: datetime, delivery_date: datetime, truck_id, status: str = msg.LoadStatus.SCHEDULED):
         self.id = None  # This would be set when saved to a database
         self.broker = broker
