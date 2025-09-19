@@ -3,6 +3,7 @@ import os
 
 
 from services.trip import Trip, TripItem
+from services.truck import Truck, TruckItem
 from logger import activity_logger, error_logger, stdout_logger
 from services.extract_trip_details import extract_from_pdf, process_pdf_text
 import messages as msg
@@ -137,6 +138,82 @@ def upload_trip_pdf(file: UploadFile = File(...)):
     else:
         return resp.raw()
     
+
+
+"""
+Endpoints for trucks 
+"""
+@app.get('/api/trucks/')
+def get_trucks(
+        license_plate: Union[str, None] = None,
+        model: Union[str, None] = None,
+        year: Union[str, None] = None,
+        towing_capacity: Union[str, None] = None,
+        status: Union[str, None] = None, 
+        location: Union[str, None] = None
+
+
+        ):
+    """
+    Get all trucks or filter by passing optional query params
+    """
+    conn = get_db_connection()
+    trucks = Truck.filter(conn,  license_plate=license_plate, model=model, year=year, towing_capacity=towing_capacity, status=status, location=location)
+
+    return trucks.raw()
+
+@app.get("/api/truck/{truck_id}", status_code=200)
+def get_trip(truck_id: int, response: Response):
+    """
+    Get trip details by trip ID.
+    """
+    conn = get_db_connection()
+    truck = Truck.get(conn, truck_id)
+    if truck.apicode == 404:
+        response.status_code = status.HTTP_404_NOT_FOUND
+    return truck.raw()
+
+
+@app.post("/api/truck/", status_code=201)       
+def create_trip(truck: TruckItem, response: Response): 
+    """
+    Create a new trip.
+    TODO Support forms as well
+    """
+    conn = get_db_connection()
+    new_truck = Truck(
+        truck.license_plate,
+        truck.model,
+        truck.year,
+        truck.towing_capacity,
+        truck.status,
+        truck.location
+        )
+    res = new_truck.create(conn, new_truck.__dict__)
+    if res.apicode == 400:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+    return res.raw()
+
+@app.put("/api/trucks/{truck_id}/")
+def update_trip_status(truck_id: int, 
+        license_plate: Union[str, None] = None,
+        model: Union[str, None] = None,
+        year: Union[str, None] = None,
+        towing_capacity: Union[str, None] = None,
+        status: Union[str, None] = None, 
+        location: Union[str, None] = None
+                       
+):
+        
+    """
+    Update the values of a trip.
+    """
+    conn = get_db_connection()
+    res = Truck.update(conn, truck_id, license_plate=license_plate, model=model, year=year, towing_capacity=towing_capacity, status=status, location=location)
+    conn.close()
+    return res.raw()
+
+    
 """
 Work on Driver endpoints
 """
@@ -145,56 +222,92 @@ def get_driver(driver_id: int):
     """
     Get driver details by driver ID.
     """
-    conn = get_db_connection()
-    driver = conn.execute('SELECT * FROM drivers WHERE id = ?', (driver_id,)).fetchone()
-    conn.close()
-    if driver is None:
-        return {"apicode": 404, "message": f"Driver with ID {driver_id} not found."}
-    return {"apicode": 200, "data": dict(driver)}
+    pass
 
 @app.post("/api/drivers/")
 def create_driver(name: str, license_number: str, phone: str):
     """
     Create a new driver.
     """
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    updated_at = created_at
-    cursor.execute('''
-        INSERT INTO drivers (name, license_number, phone, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (name, license_number, phone, created_at, updated_at))
-    driver_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    return {"apicode": 201, "message": "Driver created successfully.", "data": {"driver_id": driver_id, "name": name, "license_number": license_number, "phone": phone, "created_at": created_at, "updated_at": updated_at}}
+    pass
 
 @app.put("/api/drivers/{driver_id}")
 def update_driver(driver_id: int, name: Union[str, None] = None, license_number: Union[str, None] = None, phone: Union[str, None] = None):
     """
     Update driver details.
     """
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    driver = conn.execute('SELECT * FROM drivers WHERE id = ?', (driver_id,)).fetchone()
-    if driver is None:
-        conn.close()
-        return {"apicode": 404, "message": f"Driver with ID {driver_id} not found."}
+    pass
 
-    updated_name = name if name is not None else driver['name']
-    updated_license_number = license_number if license_number is not None else driver['license_number']
-    updated_phone = phone if phone is not None else driver['phone']
-    updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    cursor.execute('''
-        UPDATE drivers
-        SET name = ?, license_number = ?, phone = ?, updated_at = ?
-        WHERE id = ?
-    ''', (updated_name, updated_license_number, updated_phone, updated_at, driver_id))
-    conn.commit()
-    conn.close()
-    return {"apicode": 200, "message": "Driver updated successfully.", "data": {"driver_id": driver_id, "name": updated_name, "license_number": updated_license_number, "phone": updated_phone, "updated_at": updated_at}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

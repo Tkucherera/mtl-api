@@ -55,16 +55,38 @@ CREATE TABLE IF NOT EXISTS trucks (
     updated_at TEXT NOT NULL 
 )
 '''
-
 )
+
+######
+
+#  User Profiles 
+
+######
+
+# create profile table 
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS profiles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fname TEXT NOT NULL,
+    lname TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    profile_picture TEXT
+)
+''')
+
+
 
 # Create drivers table
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS drivers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
     license_number TEXT NOT NULL,
-    phone TEXT NOT NULL,
+    pay_rate REAL NOT NULL,
+    status TEXT,
+    profile_id INTEGER NOT NULL,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 )

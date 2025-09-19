@@ -11,6 +11,7 @@ import unittest
 
 from services.trip import Trip
 from services.truck import Truck
+from users.users import Profile, Driver
 from messages import *
 import time
 import sqlite3
@@ -312,14 +313,28 @@ class TestTruck(unittest.TestCase):
         self.assertEqual(updated_truck['license_plate'], 'MMM-001')    
 
 
+# testing drivers 
+class TestUsers:
+    def setUp(self):
+        # Fresh in-memory DB for each test
+        self.conn = sqlite3.connect(":memory:")
+        self.conn.row_factory = sqlite3.Row
+        cursor = self.conn.cursor()
+
+    def drivers(self):
+        conn = self.conn
+
+        profile = Profile('Tinashe', 'Kucherera', '984 292 2670', 'tkucherera86@gmail.com', 'Tinashe0309',)
+        driver = Driver( profile, 'GL38975y3', 0.2) 
+
+        # TODO finish this off 
+
 if __name__ == '__main__':
     unittest.main()
 
 
 # Missing Coverage 
 """
-1. Updating Load Status and Validating Updating 
 2. Validating filters 
-3. Validate update process 
 4. 
 """
