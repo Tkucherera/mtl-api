@@ -1,29 +1,41 @@
 import sys
 import os
-
+from datetime import datetime
 
 from services.trip import Trip, TripItem
 from services.truck import Truck, TruckItem
+from users.users import LoginItem, DriverItem, Profile, Driver
 from logger import activity_logger, error_logger, stdout_logger
 from services.extract_trip_details import extract_from_pdf, process_pdf_text
 import messages as msg
 from config.db import get_db_connection
 from client import Client
+from users.authentication import verify_password
 
 
 
-from typing import Union
+from typing import Union, Annotated
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi import Response, status
-from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import Depends, FastAPI, HTTPException
+
 
 
 
 app = FastAPI(title="MTL API", description="API for Managing Truck Loads", version="1.0.0")
 
 
-# see if we can filter
 
+# set allowed host
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://127.0.0.1:5173'],
+    allow_credentials = True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 session = None
 session = Client()
@@ -38,6 +50,23 @@ def read_root():
 
     """
     return {"message": "Welcome to the MTL API. Use /docs for API documentation."}
+
+
+"""
+ User Endpoints 
+"""
+import time
+
+
+
+@app.post("/api/login")
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    conn = get_db_connection()
+    
+    
+
+    return {"access_token": "", "token_type": "bearer"}
+
 
 """
 Work on Trip endpoints
@@ -218,18 +247,30 @@ def update_trip_status(truck_id: int,
 Work on Driver endpoints
 """
 @app.get("/api/drivers/{driver_id}")
-def get_driver(driver_id: int):
+def get_driver(driver_id: int, response: Response):
     """
     Get driver details by driver ID.
     """
-    pass
+    conn = get_db_connection()
+    driver = Driver.get(conn, driver_id)
+    if driver.apicode == 404:
+        response.status_code = status.HTTP_404_NOT_FOUND
+    return driver.raw()
+    
 
 @app.post("/api/drivers/")
-def create_driver(name: str, license_number: str, phone: str):
+def create_driver(data: DriverItem, response: Response):
     """
     Create a new driver.
     """
-    pass
+    conn = get_db_connection()
+    profile = Profile(data.fname, data.lname, data.email, data.phone, data.password)
+    driver = Driver(profile, data.license_number, data.pay_rate, data.status)
+    res = driver.create_driver(conn)
+    if res.apicode == 400:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+    return res.raw()
+
 
 @app.put("/api/drivers/{driver_id}")
 def update_driver(driver_id: int, name: Union[str, None] = None, license_number: Union[str, None] = None, phone: Union[str, None] = None):

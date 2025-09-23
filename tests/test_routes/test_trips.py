@@ -14,12 +14,40 @@ client = TestClient(app)
 def test_trip_get():
     response = client.get('/api/trips/1')
     assert response.status_code == 200
-    assert response.json() == {"found":{"id":1,"truck_id":2,"broker":"Tinashe Inc","rate_con_number":"RC123","rate":1500.0,"pickup_location":"Location A","dropoff_location":"Location B","pickup_date":"2024-06-25T10:00:00","delivery_date":"2024-06-30T18:00:00","status":"Scheduled","created_at":"2025-09-13 19:03:07","updated_at":"2025-09-13 19:03:07","driver_id":None}}
+    assert response.json() == {"found":{
+            'broker': 'Tinashe Inc',
+            'created_at': '2025-09-22 21:10:10',
+            'delivery_date': '2025-06-30T18:00:00',
+            'driver_id': None,
+            'dropoff_location': 'MayBeth Ave, Greensboro, NC',
+            'id':1,
+            'pickup_date': '2025-06-25T10:00:00',
+            'pickup_location': '3562 Hewitt St Greensboro, NC',
+            'rate': 1500.0,
+            'rate_con_number': 'RC136',
+            'status': 'Scheduled',
+            'truck_id': 1,
+            'updated_at': '2025-09-22 21:10:10',
+        }}
 
 def test_trip_get_filters():
-    response = client.get('/api/trips/?broker=Tinashe%20Inc')
+    response = client.get('/api/trips/?broker=Mary%20Inc')
     assert response.status_code == 200
-    assert response.json() == {"found":[{"id":1,"truck_id":2,"broker":"Tinashe Inc","rate_con_number":"RC123","rate":1500.0,"pickup_location":"Location A","dropoff_location":"Location B","pickup_date":"2024-06-25T10:00:00","delivery_date":"2024-06-30T18:00:00","status":"Scheduled","created_at":"2025-09-13 19:03:07","updated_at":"2025-09-13 19:03:07","driver_id":None}]}
+    assert response.json() == {"found":[{
+            'broker': 'Tinashe Inc',
+            'created_at': '2025-09-22 21:10:10',
+            'delivery_date': '2025-06-30T18:00:00',
+            'driver_id': None,
+            'dropoff_location': 'MayBeth Ave, Greensboro, NC',
+            'id':1,
+            'pickup_date': '2025-06-25T10:00:00',
+            'pickup_location': '3562 Hewitt St Greensboro, NC',
+            'rate': 1500.0,
+            'rate_con_number': 'RC136',
+            'status': 'Scheduled',
+            'truck_id': 1,
+            'updated_at': '2025-09-22 21:10:10',
+        }]}
 
 def test_trip_not_found():
     response = client.get('/api/trips/200')
@@ -75,16 +103,11 @@ def test_trip_put():
     assert ret['status'] == 'Pending Pickup'
 
     # change back for reruns
-    response = client.put('/api/trips/7/?truck_id=1&&status=Scheduled')
+    response = client.put('/api/trips/2/?truck_id=1&&status=Scheduled')
     ret = response.json()['updated']
     assert ret['truck_id'] == 1
     assert ret['status'] == 'Scheduled'
 
-
-
-
-    
-    
 
 
 

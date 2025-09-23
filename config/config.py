@@ -20,6 +20,8 @@ class ConfigManager:
     This is a configuration manager for the database.
     It will handle reading and writing to the database.
     It will also handle data validation and integrity.
+    
+    # for all these funtions drop the password if table is profile
     """
     table_name = None
     
@@ -40,6 +42,9 @@ class ConfigManager:
             cursor.execute(sql, tuple(props.values()))
             conn.commit()
 
+        if self.table_name == 'profiles':
+            self.password = None
+
         self.id = cursor.lastrowid
         if self.id is None:
             return msg.ResourceCreateError({'error': 'Failed to create item'})
@@ -58,6 +63,8 @@ class ConfigManager:
         if item is None:
             return msg.ResourceNotFound({'id': id})
         return msg.ResourceFound(dict(item))
+    
+    
 
     @classmethod
     def all(cls, conn):

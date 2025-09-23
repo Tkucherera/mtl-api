@@ -9,7 +9,8 @@ import messages as msg
 from pydantic import BaseModel
 from authentication import secure_password
 
-class DriverItem:
+
+class DriverItem(BaseModel):
     fname: str
     lname: str
     email: str
@@ -27,6 +28,11 @@ class Roles:
     truck_owner = 'TRUCK OWNER'
 
 
+class LoginItem(BaseModel):
+    email: str
+    password: str
+
+
 
 
 class Profile(ConfigManager):
@@ -41,10 +47,28 @@ class Profile(ConfigManager):
         self.profile_picture = profile_picture
 
     def create_user(self, conn):
+        # check db if some of the values that should be unique are 
+        # check if email already in db 
+        check=self.filter(conn, email=self.email, phone=self.phone)
+        if type(check) is msg.ResourceFound:
+            raise Exception('profile with email or phone already exists')
         res= self.create(conn, self.__dict__)
         if res.apicode == 400:
             raise Exception(res)
         return res.raw()
+    
+    @staticmethod
+    def get_user_by_email(conn, email):
+        """
+        Read a row from the database table
+        returns a single row or None
+        """
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM profiles WHERE email = ?", (email,))
+        item = cursor.fetchone()
+        if item is None:
+            return msg.ResourceNotFound({'email': email})
+        return msg.ResourceFound(dict(item))
         
 
 
@@ -66,13 +90,14 @@ class Driver(ConfigManager):
     def create_driver(self, conn):
         if self.profile.id is None:
             res = self.profile.create_user(conn)
-            print(res)
             if 'created' in res:
                 self.profile.id = res['created']['id']
                 self.profile_id = self.profile.id
 
         props = {k: getattr(self, k) for k in self.fields}
         return self.create(conn, props)
+    
+
 
     
 
