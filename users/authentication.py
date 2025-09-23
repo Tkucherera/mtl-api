@@ -1,5 +1,4 @@
 import scrypt
-import os
 from datetime import datetime, timedelta, timezone
 
 from typing import Annotated 
@@ -9,7 +8,7 @@ from pydantic import BaseModel
 import jwt
 from jwt.exceptions import InvalidTokenError
 
-from .users import DriverItem, Profile
+from users.users import DriverItem, Profile
 
 
 SECRET_KEY = "a96e5a47ac3b6020a9d36f8fc715b641d6e3f6c592d59c904c0f9530b38c3696"
@@ -17,9 +16,6 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-def secure_password(password, datalength=64, maxtime=0.5):
-    return scrypt.encrypt(os.urandom(datalength), password, maxtime=maxtime)
 
 
 def verify_password(hashed_password, guessed_password, maxtime=0.5):
@@ -68,11 +64,12 @@ class TokenData(BaseModel):
 
 
 def authenticate_user(conn, username, password):
+
     user = Profile.get_user_by_email(conn, username)
-    user_info = user.get('found')
-    if user.apicode != 200 and user_info is None:
+    if user.apicode != 200 and 'found' not in user.raw():
         return False
     
+    user_info = user.raw().get('found')
     hashed_password = user_info.get('password')
     is_valid, status = verify_password(hashed_password, password)
     if not is_valid and status != 'correct':
@@ -106,6 +103,29 @@ async def get_current_user(conn, token: Annotated[str, Depends(oauth2_scheme)]):
     except InvalidTokenError:
         raise credentials_exeption
     user = Profile.get_user_by_email(conn=conn, email=token_data.username)
+    if user.apicode != 200:
+        raise credentials_exeption
+    return user
+
+async def get_current_driver(conn, token: Annotated[str, Depends(oauth2_scheme)]):
+    """
+    Come back and change this to actual Driver not Profile
+    """
+    credentials_exeption = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail='Could not valitade user with given credentials',
+        headers={"WWW-Authenticate": 'Bearer'},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise credentials_exeption
+        token_data = TokenData(username=username)
+    except InvalidTokenError:
+        raise credentials_exeption
+    user = Profile.get_user_by_email(conn=conn, email=token_data.username)
+
     if user.apicode != 200:
         raise credentials_exeption
     return user

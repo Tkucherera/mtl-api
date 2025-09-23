@@ -7,7 +7,7 @@ from config.config import ConfigManager
 from config.db import get_db_connection
 import messages as msg
 from pydantic import BaseModel
-from authentication import secure_password
+from users.utils import secure_password
 
 
 class DriverItem(BaseModel):
@@ -57,14 +57,14 @@ class Profile(ConfigManager):
             raise Exception(res)
         return res.raw()
     
-    @staticmethod
-    def get_user_by_email(conn, email):
+    @classmethod
+    def get_user_by_email(cls,conn, email):
         """
         Read a row from the database table
         returns a single row or None
         """
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM profiles WHERE email = ?", (email,))
+        cursor.execute(f"SELECT * FROM {cls.table_name} WHERE email = ?", (email,))
         item = cursor.fetchone()
         if item is None:
             return msg.ResourceNotFound({'email': email})

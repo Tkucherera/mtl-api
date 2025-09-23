@@ -77,7 +77,15 @@ class ConfigManager:
         items = cursor.fetchall()
         if not items:
             return msg.ResourceNotFound({'items': []})
-        return msg.ResourceFound([dict(item) for item in items])
+        rows = []
+        for item in items:
+            row = dict(item)
+            if cls.table_name == "profiles" and "password" in row:
+                row["password"] = "****"  # mask it
+            rows.append(row)
+
+        return msg.ResourceFound(rows)
+    
 
         
     @classmethod

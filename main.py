@@ -1,6 +1,6 @@
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from services.trip import Trip, TripItem
 from services.truck import Truck, TruckItem
@@ -10,8 +10,10 @@ from services.extract_trip_details import extract_from_pdf, process_pdf_text
 import messages as msg
 from config.db import get_db_connection
 from client import Client
-from users.authentication import verify_password
 
+
+from users.authentication import authenticate_user, create_access_token, get_current_driver
+from users.authentication import Token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 
 from typing import Union, Annotated
@@ -60,13 +62,32 @@ import time
 
 
 @app.post("/api/login")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     conn = get_db_connection()
-    
-    
 
-    return {"access_token": "", "token_type": "bearer"}
+    user = authenticate_user(conn, form_data.username, form_data.password)
+    if user:
+        user_info = user.raw().get('found')
+        if user.apicode != 200:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Incorrect username or password',
+                headers={'WWW-Authenticat': 'Bearer'},
+            )
+    else:
+        raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail='Incorrect username or password',
+                headers={'WWW-Authenticat': 'Bearer'},
+            )
 
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(data={"sub": user_info.get("email")}, expires_delta=access_token_expires)
+    return Token(access_token=access_token, token_type='bearer')
+
+@app.get('/drivers/me', response_model=DriverItem)
+def get_users_me(current_user: Annotated[DriverItem, Depends(get_current_driver)]):
+    return current_user
 
 """
 Work on Trip endpoints
@@ -278,6 +299,19 @@ def update_driver(driver_id: int, name: Union[str, None] = None, license_number:
     Update driver details.
     """
     pass
+
+"""
+ Profiles is is supposed to be for privilegded user 
+"""
+@app.get('/api/users/')
+def get_users():
+    conn = get_db_connection()
+    users = Profile.all(conn)
+    if users.apicode != 200:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+    
+
+    return users.raw()
 
 
 

@@ -324,7 +324,7 @@ class TestUsers:
     def drivers(self):
         conn = self.conn
 
-        profile = Profile('Tinashe', 'Kucherera', '984 292 2670', 'tkucherera86@gmail.com', 'Tinashe0309',)
+        profile = Profile(fname='Tinashe', lname='Kucherera', phone='984 292 2670', email='tkucherera86@gmail.com', password='Tinashe0309',)
         driver = Driver( profile, 'GL38975y3', 0.2) 
 
         # TODO finish this off 
