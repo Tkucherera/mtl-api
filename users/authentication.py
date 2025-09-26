@@ -1,5 +1,6 @@
 import scrypt
 from datetime import datetime, timedelta, timezone
+from config.db import get_db_connection
 
 from typing import Annotated 
 from fastapi import Depends, FastAPI, HTTPException, status
@@ -8,7 +9,7 @@ from pydantic import BaseModel
 import jwt
 from jwt.exceptions import InvalidTokenError
 
-from users.users import DriverItem, Profile
+from users.users import DriverItem, Profile, Driver, ProfileItem
 
 
 SECRET_KEY = "a96e5a47ac3b6020a9d36f8fc715b641d6e3f6c592d59c904c0f9530b38c3696"
@@ -18,7 +19,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-def verify_password(hashed_password, guessed_password, maxtime=0.5):
+def verify_password(hashed_password, guessed_password, maxtime=1.5):
     """Verify a password against its hash with better error handling.
 
     Args:
@@ -107,10 +108,11 @@ async def get_current_user(conn, token: Annotated[str, Depends(oauth2_scheme)]):
         raise credentials_exeption
     return user
 
-async def get_current_driver(conn, token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_driver(token: Annotated[str, Depends(oauth2_scheme)]):
     """
     Come back and change this to actual Driver not Profile
     """
+    conn = get_db_connection()
     credentials_exeption = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail='Could not valitade user with given credentials',
@@ -124,12 +126,26 @@ async def get_current_driver(conn, token: Annotated[str, Depends(oauth2_scheme)]
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exeption
-    user = Profile.get_user_by_email(conn=conn, email=token_data.username)
+    profile = Profile.get_user_by_email(conn=conn, email=token_data.username)
+    
 
-    if user.apicode != 200:
-        raise credentials_exeption
-    return user
+    if profile.apicode == 200:
+        profile_dict = profile.raw().get('found')
+        if 'password' in profile_dict:
+            profile_dict['password'] = None
+        profile_id = profile_dict.get('id')
+        print(f'profile_id {profile_id}')
 
+        if profile_id:
+            driver = Driver.get_driver_by_profile_id(conn=conn, id=profile_id)
+            print(driver)
+            if driver.apicode != 200:
+                raise credentials_exeption
+            driver_dict = driver.raw().get('found')
+            driver_item = DriverItem(profile=ProfileItem(**profile_dict), **driver_dict)
+            
+            return driver_item
+    raise credentials_exeption
 
 
         

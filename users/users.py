@@ -10,16 +10,7 @@ from pydantic import BaseModel
 from users.utils import secure_password
 
 
-class DriverItem(BaseModel):
-    fname: str
-    lname: str
-    email: str
-    phone: str
-    password: str
-    license_number: str
-    pay_rate: float
-    status: str
-    profile_picture: str = None
+
 
 class Roles:
     super_user = 'SUPER'
@@ -58,7 +49,7 @@ class Profile(ConfigManager):
         return res.raw()
     
     @classmethod
-    def get_user_by_email(cls,conn, email):
+    def get_user_by_email(cls,conn, email: str) -> msg.ResourceFound | msg.ResourceNotFound:
         """
         Read a row from the database table
         returns a single row or None
@@ -69,8 +60,38 @@ class Profile(ConfigManager):
         if item is None:
             return msg.ResourceNotFound({'email': email})
         return msg.ResourceFound(dict(item))
+    
+    @classmethod
+    def get_user_id(cls, conn, email: str) -> int | None:
+        """
+        Read a row from the database table
+        returns id 
+        """
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT id FROM {cls.table_name} WHERE email = ?", (email,))
+        item = cursor.fetchone()
+        if item is None:
+            return None
+        return item['id'] if 'id' in item else item[0]
+    
+class ProfileItem(BaseModel):
+    id: int
+    fname: str
+    lname: str
+    email: str
+    phone: str
+    password: str | None 
+    profile_picture: str | None = None
         
 
+
+class DriverItem(BaseModel):
+    profile: ProfileItem
+    license_number: str
+    pay_rate: float
+    status: str
+    id: int
+    profile_id: int
 
 
 class Driver(ConfigManager):
@@ -97,6 +118,68 @@ class Driver(ConfigManager):
         props = {k: getattr(self, k) for k in self.fields}
         return self.create(conn, props)
     
+    @classmethod
+    def get_driver_by_profile_id(cls, conn, id):
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM {cls.table_name} WHERE profile_id = ?", (id,))
+        item = cursor.fetchone()
+        if item is None:
+            return msg.ResourceNotFound({'profile_id': id})
+        return msg.ResourceFound(dict(item))
+    
+    @classmethod
+    def get_driver_trips(cls, conn, id):
+        """
+        Returns all trips for a given driver (by profile_id).
+        """
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM trips WHERE driver_id = ? ORDER BY start_time DESC",
+            (id,)
+        )
+        items = cursor.fetchall()
+        if not items:
+            return msg.ResourceNotFound({'driver_id': id})
+        return msg.ResourceFound([dict(item) for item in items])
+
+    @classmethod
+    def get_driver_current_trip(cls, conn, id):
+        """
+        Returns the current (active) trip for a given driver (by profile_id).
+        """
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM trips WHERE driver_id = ? AND status = ? ORDER BY start_time DESC LIMIT 1",
+            (id, 'ACTIVE')
+        )
+        item = cursor.fetchone()
+        if item is None:
+            return msg.ResourceNotFound({'driver_id': id, 'status': 'ACTIVE'})
+        return msg.ResourceFound(dict(item))
+
+    @classmethod
+    def get_driver_miles(cls, conn, id):
+        """
+        Returns the total miles driven by a driver (by profile_id).
+        """
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT SUM(distance) as total_miles FROM trips WHERE driver_id = ?",
+            (id,)
+        )
+        item = cursor.fetchone()
+        total_miles = item['total_miles'] if item and item['total_miles'] is not None else 0
+        return total_miles
+
+    @staticmethod
+    def calculate_driver_fee(tripitem, driver_rate: float):
+        """
+        Calculates the driver's fee for a trip.
+        Assumes tripitem has a 'distance' field.
+        """
+        distance = tripitem.get('distance', 0)
+        return distance * driver_rate
+
 
 
     

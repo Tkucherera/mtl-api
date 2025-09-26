@@ -85,9 +85,14 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> T
     access_token = create_access_token(data={"sub": user_info.get("email")}, expires_delta=access_token_expires)
     return Token(access_token=access_token, token_type='bearer')
 
-@app.get('/drivers/me', response_model=DriverItem)
+@app.get('/api/drivers/me', response_model=DriverItem)
 def get_users_me(current_user: Annotated[DriverItem, Depends(get_current_driver)]):
     return current_user
+
+@app.get('/api/driver/trips/')
+def get_driver_trips(current_user: Annotated[DriverItem, Depends(get_current_driver)]):
+    pass
+
 
 """
 Work on Trip endpoints
@@ -277,6 +282,7 @@ def get_driver(driver_id: int, response: Response):
     if driver.apicode == 404:
         response.status_code = status.HTTP_404_NOT_FOUND
     return driver.raw()
+
     
 
 @app.post("/api/drivers/")
@@ -285,7 +291,7 @@ def create_driver(data: DriverItem, response: Response):
     Create a new driver.
     """
     conn = get_db_connection()
-    profile = Profile(data.fname, data.lname, data.email, data.phone, data.password)
+    profile = Profile(data.profile.fname, data.profile.lname, data.profile.email, data.profile.phone, data.profile.password)
     driver = Driver(profile, data.license_number, data.pay_rate, data.status)
     res = driver.create_driver(conn)
     if res.apicode == 400:
