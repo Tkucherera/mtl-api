@@ -5,89 +5,98 @@ description: Using SQLite for lightweight, as we go might migrate to a more robu
 Database configuration and initialization.
 """
 
-import sqlite3
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship, Session
+from datetime import datetime, timezone
 
+import os
 
-def get_db_connection(testing: bool = False):
-    if testing:
-        connection = sqlite3.connect(':memory:')
-    else:
-        connection = sqlite3.connect('mtl.db')
-    connection.row_factory = sqlite3.Row
-    connection.execute('PRAGMA foreign_keys = ON')
-    return connection
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # go up one from config/
+DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'mtl.db')}"
+print(DATABASE_URL)
 
-connection = get_db_connection()
-cursor = connection.cursor()
-
-# Create trips table
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS trips (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    truck_id INTEGER NOT NULL,
-    broker TEXT NOT NULL,
-    rate_con_number TEXT NOT NULL,
-    rate REAL NOT NULL,
-    pickup_location TEXT NOT NULL,
-    dropoff_location TEXT NOT NULL,
-    pickup_date TEXT NOT NULL,
-    delivery_date TEXT NOT NULL,
-    status TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL,
-    driver_id INTEGER,
-    FOREIGN KEY (driver_id) REFERENCES drivers(id)
-)
-''')
-
-
-# Create Trucks table 
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS trucks (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    license_plate TEXT,
-    model TEXT NOT NULL,
-    year INTEGER NOT NULL,
-    towing_capacity INTEGER NOT NULL,
-    location TEXT,
-    status TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL 
-)
-'''
+# SQLAlchemy engine
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False},  # Needed for SQLite
+    echo=True  # optional: log SQL queries
 )
 
-######
+# Session factory
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-#  User Profiles 
+# Base class for models
+Base = declarative_base()
 
-######
+# ======================================================
+# ORM Models (matches your current sqlite tables)
+# ======================================================
+class Profile(Base):
+    __tablename__ = "profiles"
+    id = Column(Integer, primary_key=True, index=True)
+    fname = Column(String, nullable=False)
+    lname = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False, index=True)
+    password = Column(String, nullable=False)
+    phone = Column(String, nullable=True)
+    profile_picture = Column(String, nullable=True)
+    driver = relationship("Driver", back_populates="profile", uselist=False)
 
-# create profile table 
+class Driver(Base):
+    __tablename__ = "drivers"
+    id = Column(Integer, primary_key=True, index=True)
+    license_number = Column(String, nullable=False)
+    pay_rate = Column(Float, nullable=False)
+    status = Column(String, default="Active")
+    profile_id = Column(Integer, ForeignKey("profiles.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    profile = relationship("Profile", back_populates="driver")
+    trips = relationship("Trip", back_populates="driver")
 
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS profiles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fname TEXT NOT NULL,
-    lname TEXT NOT NULL,
-    email TEXT NOT NULL,
-    password TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    profile_picture TEXT
-)
-''')
+class Truck(Base):
+    __tablename__ = "trucks"
+    id = Column(Integer, primary_key=True, index=True)
+    plate_number = Column(String)
+    model = Column(String, nullable=False)
+    year = Column(Integer, nullable=False)
+    towing_capacity = Column(Float, nullable=False)
+    location = Column(String, nullable=True)
+    status = Column(String, default="Available")
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    trips = relationship("Trip", back_populates="truck")
 
+class Trip(Base):
+    __tablename__ = "trips"
+    id = Column(Integer, primary_key=True, index=True)
+    broker = Column(String, nullable=False)
+    rate_con_number = Column(String, nullable=False)
+    rate = Column(Float, nullable=False)
+    pickup_location = Column(String, nullable=False)
+    dropoff_location = Column(String, nullable=False)
+    pickup_date = Column(DateTime, nullable=False)
+    delivery_date = Column(DateTime, nullable=False)
+    status = Column(String, default="Scheduled")
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    truck_id = Column(Integer, ForeignKey("trucks.id"), nullable=False)
+    driver_id = Column(Integer, ForeignKey("drivers.id"), nullable=True)
+    truck = relationship("Truck", back_populates="trips")
+    driver = relationship("Driver", back_populates="trips")
 
+# ======================================================
+# Dependency for FastAPI endpoints
+# ======================================================
+def get_db_session() -> Session:
+    """Provide a database session to FastAPI endpoints."""
+    db: Session = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-# Create drivers table
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS drivers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    license_number TEXT NOT NULL,
-    pay_rate REAL NOT NULL,
-    status TEXT,
-    profile_id INTEGER NOT NULL,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-)
-''')
+# ======================================================
+# Create tables if they don't exist
+# ======================================================
+Base.metadata.create_all(bind=engine)
